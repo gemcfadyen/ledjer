@@ -6,6 +6,8 @@ public class Ledger
   private int balance;
   private Deposit[] deposits = new Deposit[10];
   private int depositIndex = 0;
+  private Payment[] payments = new Payment[10];
+  private int paymentIndex = 0;
 
   public Ledger()
   {
@@ -23,6 +25,12 @@ public class Ledger
     balance += deposit.getAmount();
   }
 
+  public void pay(Payment payment)
+  {
+    payments[paymentIndex++] = payment;
+    balance -= payment.getAmount();
+  }
+
   public String statement()
   {
     String result = "";
@@ -30,6 +38,11 @@ public class Ledger
     {
       Deposit deposit = deposits[i];
       result += String.format("Deposit: $%.2f\n", deposit.getAmount() / 100.0);
+    }
+    for(int i = 0; i < paymentIndex; i++)
+    {
+      Payment payment = payments[i];
+      result += String.format("Payment to %s: ($%.2f)\n", payment.getPayee(), payment.getAmount() / 100.0);
     }
     result += String.format("Total: $%.2f", balance / 100.0);
     return result;

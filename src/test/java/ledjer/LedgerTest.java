@@ -44,4 +44,24 @@ public class LedgerTest
 
     assertEquals("Deposit: $1.23\nDeposit: $4.56\nTotal: $5.79", ledger.statement());
   }
+
+  @Test
+  public void paymentSubtractsFromBalance() throws Exception
+  {
+    ledger.deposit(new Deposit(1234));
+    ledger.pay(new Payment(234, "Paul"));
+
+    assertEquals(1000, ledger.getBalance());
+  }
+
+  @Test
+  public void paymentsAppearInStatement() throws Exception
+  {
+    ledger.deposit(new Deposit(1234));
+    ledger.pay(new Payment(234, "Paul"));
+
+    assertEquals("Deposit: $12.34\n" +
+      "Payment to Paul: ($2.34)\n" +
+      "Total: $10.00", ledger.statement());
+  }
 }
