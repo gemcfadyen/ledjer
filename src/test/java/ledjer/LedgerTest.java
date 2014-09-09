@@ -17,6 +17,12 @@ public class LedgerTest
   }
 
   @Test
+  public void initialBalance() throws Exception
+  {
+    assertEquals(0, ledger.getBalance());
+  }
+
+  @Test
   public void deposit()
   {
     ledger.deposit(new Deposit(123));
