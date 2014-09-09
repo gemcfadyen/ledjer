@@ -1,14 +1,24 @@
 package ledjer.fixtures;
 
-public class Deposits {
-	public void setAmount(int amount) {
-	}
-	
-	public int balance() {
-		return 0;
-	}
-	
-	public void execute() {
-		// This runs once per row in the fitnesse table
-	}
+import ledjer.Deposit;
+
+public class Deposits
+{
+
+  public int amount;
+
+  public void setAmount(int amount)
+  {
+    this.amount = amount;
+  }
+
+  public int balance()
+  {
+    return Context.ledger.getBalance();
+  }
+
+  public void execute()
+  {
+    Context.ledger.deposit(new Deposit(amount));
+  }
 }

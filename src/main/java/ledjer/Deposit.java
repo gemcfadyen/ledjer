@@ -1,7 +1,17 @@
 package ledjer;
 
-public class Deposit {
+public class Deposit
+{
 
-	public Deposit(int amount) {
-	}
+  private int amount;
+
+  public Deposit(int amount)
+  {
+    this.amount = amount;
+  }
+
+  public int getAmount()
+  {
+    return amount;
+  }
 }
