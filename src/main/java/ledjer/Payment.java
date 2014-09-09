@@ -1,19 +1,13 @@
 package ledjer;
 
-public class Payment
+public class Payment extends Transaction
 {
-  private int amount;
   private String payee;
 
   public Payment(int amount, String payee)
   {
-    this.amount = amount;
+    super(amount);
     this.payee = payee;
-  }
-
-  public int getAmount()
-  {
-    return amount;
   }
 
   public String getPayee()

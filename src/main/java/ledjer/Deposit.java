@@ -1,17 +1,11 @@
 package ledjer;
 
-public class Deposit
+public class Deposit extends Transaction
 {
-
-  private int amount;
 
   public Deposit(int amount)
   {
-    this.amount = amount;
+    super(amount);
   }
 
-  public int getAmount()
-  {
-    return amount;
-  }
 }
