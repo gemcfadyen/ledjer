@@ -13,4 +13,10 @@ public class DepositTest
     Deposit deposit = new Deposit(42);
     assertEquals(42, deposit.getAmount());
   }
+
+  @Test
+  public void asStatement() throws Exception
+  {
+    assertEquals("Deposit: $1.23\n", new Deposit(123).asStatement());
+  }
 }

@@ -1,6 +1,6 @@
 package ledjer;
 
-public class Transaction
+public abstract class Transaction
 {
   protected int amount;
 
@@ -13,4 +13,6 @@ public class Transaction
   {
     return amount;
   }
+
+  public abstract String asStatement();
 }

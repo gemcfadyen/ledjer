@@ -14,4 +14,10 @@ public class Payment extends Transaction
   {
     return payee;
   }
+
+  @Override
+  public String asStatement()
+  {
+    return String.format("Payment to %s: ($%.2f)\n", payee, getAmount() / 100.0);
+  }
 }

@@ -39,10 +39,14 @@ public class LedgerTest
   @Test
   public void statementWithDeposits() throws Exception
   {
-    ledger.deposit(new Deposit(123));
-    ledger.deposit(new Deposit(456));
+    final Deposit deposit1 = new Deposit(123);
+    final Deposit deposit2 = new Deposit(456);
+    ledger.deposit(deposit1);
+    ledger.deposit(deposit2);
 
-    assertEquals("Deposit: $1.23\nDeposit: $4.56\nTotal: $5.79", ledger.statement());
+    assertEquals(deposit1.asStatement() +
+      deposit2.asStatement() +
+      "Total: $5.79", ledger.statement());
   }
 
   @Test
@@ -57,11 +61,30 @@ public class LedgerTest
   @Test
   public void paymentsAppearInStatement() throws Exception
   {
-    ledger.deposit(new Deposit(1234));
-    ledger.pay(new Payment(234, "Paul"));
+    final Deposit deposit = new Deposit(1234);
+    final Payment payment = new Payment(234, "Paul");
+    ledger.deposit(deposit);
+    ledger.pay(payment);
 
-    assertEquals("Deposit: $12.34\n" +
-      "Payment to Paul: ($2.34)\n" +
+    assertEquals(deposit.asStatement() +
+      payment.asStatement() +
       "Total: $10.00", ledger.statement());
+  }
+
+  @Test
+  public void statementWithMixedDepositAndPayment() throws Exception
+  {
+    final Deposit deposit1 = new Deposit(1234);
+    final Payment payment = new Payment(234, "Paul");
+    final Deposit deposit2 = new Deposit(2222);
+    ledger.deposit(deposit1);
+    ledger.pay(payment);
+    ledger.deposit(deposit2);
+
+    assertEquals(deposit1.asStatement() +
+      payment.asStatement() +
+      deposit2.asStatement() +
+      "Total: $32.22", ledger.statement());
+
   }
 }

@@ -4,10 +4,8 @@ public class Ledger
 {
 
   private int balance;
-  private Deposit[] deposits = new Deposit[10];
-  private int depositIndex = 0;
-  private Payment[] payments = new Payment[10];
-  private int paymentIndex = 0;
+  private Transaction[] transactions = new Transaction[10];
+  private int transactionIndex = 0;
 
   public Ledger()
   {
@@ -19,31 +17,25 @@ public class Ledger
     return balance;
   }
 
-  public void deposit(Deposit deposit)
+  public void deposit(Transaction deposit)
   {
-    deposits[depositIndex++] = deposit;
+    transactions[transactionIndex++] = deposit;
     balance += deposit.getAmount();
   }
 
-  public void pay(Payment payment)
+  public void pay(Transaction payment)
   {
-    payments[paymentIndex++] = payment;
+    transactions[transactionIndex++] = payment;
     balance -= payment.getAmount();
   }
 
   public String statement()
   {
     String result = "";
-    for(int i = 0; i < depositIndex; i++)
-    {
-      Deposit deposit = deposits[i];
-      result += String.format("Deposit: $%.2f\n", deposit.getAmount() / 100.0);
-    }
-    for(int i = 0; i < paymentIndex; i++)
-    {
-      Payment payment = payments[i];
-      result += String.format("Payment to %s: ($%.2f)\n", payment.getPayee(), payment.getAmount() / 100.0);
-    }
+
+    for(int i = 0; i < transactionIndex; i++)
+      result += transactions[i].asStatement();
+
     result += String.format("Total: $%.2f", balance / 100.0);
     return result;
   }

@@ -14,4 +14,10 @@ public class PaymentTest
     assertEquals(123, payment.getAmount());
     assertEquals("Uncle Sam", payment.getPayee());
   }
+
+  @Test
+  public void asStatement() throws Exception
+  {
+    assertEquals("Payment to Sam: ($1.23)\n", new Payment(123, "Sam").asStatement());
+  }
 }

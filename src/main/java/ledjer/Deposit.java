@@ -8,4 +8,10 @@ public class Deposit extends Transaction
     super(amount);
   }
 
+  @Override
+  public String asStatement()
+  {
+    return String.format("Deposit: $%.2f\n", getAmount() / 100.0);
+  }
+
 }
