@@ -3,6 +3,7 @@ package ledjer;
 import org.junit.Before;
 import org.junit.Test;
 
+import static junit.framework.TestCase.fail;
 import static org.junit.Assert.assertEquals;
 
 public class LedgerTest
@@ -85,6 +86,20 @@ public class LedgerTest
       payment.asStatement() +
       deposit2.asStatement() +
       "Total: $32.22", ledger.statement());
+  }
+
+  @Test
+  public void cantGoBankrupt() throws Exception
+  {
+    try
+    {
+      ledger.pay(new Payment(123, "Sam"));
+      fail("Should not allow bankrupcy!");
+    }
+    catch(NegativeBalanceException nbe)
+    {
+      // okay
+    }
 
   }
 }

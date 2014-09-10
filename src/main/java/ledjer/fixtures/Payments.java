@@ -22,7 +22,7 @@ public class Payments
     return Context.ledger.getBalance();
   }
 
-  public void execute()
+  public void execute() throws Exception
   {
     Context.ledger.pay(new Payment(amount, payee));
   }

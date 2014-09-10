@@ -23,8 +23,10 @@ public class Ledger
     balance += deposit.getAmount();
   }
 
-  public void pay(Transaction payment)
+  public void pay(Transaction payment) throws NegativeBalanceException
   {
+    if(payment.getAmount() > balance)
+      throw new NegativeBalanceException((Payment)payment);
     transactions[transactionIndex++] = payment;
     balance -= payment.getAmount();
   }
