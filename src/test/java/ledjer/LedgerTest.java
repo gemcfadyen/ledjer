@@ -98,7 +98,7 @@ public class LedgerTest
     }
     catch(NegativeBalanceException nbe)
     {
-      // okay
+      assertEquals(0, ledger.getBalance());
     }
 
   }
