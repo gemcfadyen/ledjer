@@ -18,7 +18,7 @@ public abstract class Transaction
 
   public Transaction(int amount)
   {
-    number = Transaction.nextNumber();
+    number = nextNumber();
     this.amount = amount;
   }
 
