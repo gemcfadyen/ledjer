@@ -11,7 +11,7 @@ public class Deposit extends Transaction
   @Override
   public String asStatement()
   {
-    return String.format("Deposit: $%.2f\n", getAmount() / 100.0);
+    return String.format("%d. Deposit: $%.2f\n", getNumber(), getAmount() / 100.0);
   }
 
 }

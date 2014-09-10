@@ -1,11 +1,18 @@
 package ledjer;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
 public class PaymentTest
 {
+  @Before
+  public void setUp()
+  {
+      Transaction.resetSequenceNumber();
+  }
+
   @Test
   public void construction() throws Exception
   {
@@ -18,6 +25,6 @@ public class PaymentTest
   @Test
   public void asStatement() throws Exception
   {
-    assertEquals("Payment to Sam: ($1.23)\n", new Payment(123, "Sam").asStatement());
+    assertEquals("1. Payment to Sam: ($1.23)\n", new Payment(123, "Sam").asStatement());
   }
 }

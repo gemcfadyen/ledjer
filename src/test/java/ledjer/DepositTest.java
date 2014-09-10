@@ -1,5 +1,6 @@
 package ledjer;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -7,6 +8,13 @@ import static org.junit.Assert.assertEquals;
 
 public class DepositTest
 {
+
+  @Before
+  public void setUp()
+  {
+      Transaction.resetSequenceNumber();
+  }
+
   @Test
   public void getAmount() throws Exception
   {
@@ -17,6 +25,6 @@ public class DepositTest
   @Test
   public void asStatement() throws Exception
   {
-    assertEquals("Deposit: $1.23\n", new Deposit(123).asStatement());
+    assertEquals("1. Deposit: $1.23\n", new Deposit(123).asStatement());
   }
 }

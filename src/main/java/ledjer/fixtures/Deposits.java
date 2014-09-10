@@ -6,6 +6,7 @@ public class Deposits
 {
 
   public int amount;
+  public Deposit deposit;
 
   public void setAmount(int amount)
   {
@@ -17,8 +18,14 @@ public class Deposits
     return Context.ledger.getBalance();
   }
 
+  public int number()
+  {
+    return deposit.getNumber();
+  }
+
   public void execute()
   {
-    Context.ledger.deposit(new Deposit(amount));
+    deposit = new Deposit(amount);
+    Context.ledger.deposit(deposit);
   }
 }

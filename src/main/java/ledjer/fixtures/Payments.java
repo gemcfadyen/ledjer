@@ -6,6 +6,7 @@ public class Payments
 {
   public int amount;
   public String payee;
+  public Payment payment;
 
   public void setAmount(int amount)
   {
@@ -22,8 +23,14 @@ public class Payments
     return Context.ledger.getBalance();
   }
 
+  public int number()
+  {
+    return payment.getNumber();
+  }
+
   public void execute() throws Exception
   {
-    Context.ledger.pay(new Payment(amount, payee));
+    payment = new Payment(amount, payee);
+    Context.ledger.pay(payment);
   }
 }
