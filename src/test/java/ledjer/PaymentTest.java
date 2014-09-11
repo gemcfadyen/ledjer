@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 public class PaymentTest
 {
@@ -26,5 +27,15 @@ public class PaymentTest
   public void asStatement() throws Exception
   {
     assertEquals("1. Payment to Sam: ($1.23)\n", new Payment(123, "Sam").asStatement());
+  }
+
+  @Test
+  public void equality() throws Exception
+  {
+    final Payment payment = new Payment(123, "Sam");
+    assertNotEquals(payment, null);
+    assertEquals(payment, new Payment(123, "Sam"));
+    assertNotEquals(payment, new Payment(321, "Sam"));
+    assertNotEquals(payment, new Payment(123, "Matt"));
   }
 }

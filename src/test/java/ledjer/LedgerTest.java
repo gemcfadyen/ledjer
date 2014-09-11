@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import static junit.framework.TestCase.fail;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 public class LedgerTest
 {
@@ -100,6 +101,20 @@ public class LedgerTest
     {
       assertEquals(0, ledger.getBalance());
     }
+  }
 
+  @Test
+  public void equality() throws Exception
+  {
+    assertNotEquals(ledger, null);
+
+    Ledger other = new Ledger();
+    assertEquals(ledger, other);
+
+    ledger.deposit(new Deposit(123));
+    assertNotEquals(ledger, other);
+
+    other.deposit(new Deposit(123));
+    assertEquals(ledger, other);
   }
 }

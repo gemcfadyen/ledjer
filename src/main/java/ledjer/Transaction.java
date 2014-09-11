@@ -33,4 +33,25 @@ public abstract class Transaction
   {
     return number;
   }
+
+  @Override
+  public boolean equals(Object o)
+  {
+    if(this == o) return true;
+    if(!(o instanceof Transaction)) return false;
+
+    Transaction that = (Transaction) o;
+
+    if(amount != that.amount) return false;
+//    Maybe we should check number... but that makes things less fun.
+//    if(number != that.number) return false;
+
+    return true;
+  }
+
+  @Override
+  public int hashCode()
+  {
+    return amount + number;
+  }
 }

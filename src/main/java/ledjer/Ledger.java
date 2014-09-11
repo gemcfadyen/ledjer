@@ -1,5 +1,7 @@
 package ledjer;
 
+import java.util.Arrays;
+
 public class Ledger
 {
 
@@ -40,5 +42,25 @@ public class Ledger
 
     result += String.format("Total: $%.2f", balance / 100.0);
     return result;
+  }
+
+  @Override
+  public boolean equals(Object o)
+  {
+    if(this == o) return true;
+    if(! (o instanceof Ledger)) return false;
+
+    Ledger that = (Ledger) o;
+
+    if(balance != that.balance) return false;
+    if(!Arrays.equals(transactions, that.transactions)) return false;
+
+    return true;
+  }
+
+  @Override
+  public int hashCode()
+  {
+    return balance + Arrays.hashCode(transactions);
   }
 }
