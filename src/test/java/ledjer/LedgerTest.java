@@ -133,5 +133,13 @@ public class LedgerTest
     assertNotSame(ledger, clone);
   }
 
+  @Test
+  public void addManyTransactions() throws Exception
+  {
+    for(int i = 0; i < 20; i++)
+      ledger.deposit(new Deposit(1));
+
+    assertEquals(20, ledger.getBalance());
+  }
 
 }

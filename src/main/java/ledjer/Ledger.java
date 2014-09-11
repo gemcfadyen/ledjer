@@ -1,12 +1,14 @@
 package ledjer;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedList;
 
 public class Ledger implements Cloneable
 {
 
   private int balance;
-  private Transaction[] transactions = new Transaction[10];
+  private LinkedList<Transaction> transactions = new LinkedList<Transaction>();
   private int transactionIndex = 0;
 
   public Ledger()
@@ -21,7 +23,7 @@ public class Ledger implements Cloneable
 
   public void deposit(Transaction deposit)
   {
-    transactions[transactionIndex++] = deposit;
+    transactions.add(deposit);
     balance += deposit.getAmount();
   }
 
@@ -29,7 +31,7 @@ public class Ledger implements Cloneable
   {
     if(payment.getAmount() > balance)
       throw new NegativeBalanceException((Payment)payment);
-    transactions[transactionIndex++] = payment;
+    transactions.add(payment);
     balance -= payment.getAmount();
   }
 
@@ -37,8 +39,8 @@ public class Ledger implements Cloneable
   {
     String result = "";
 
-    for(int i = 0; i < transactionIndex; i++)
-      result += transactions[i].asStatement();
+    for(Transaction transaction : transactions)
+      result += transaction.asStatement();
 
     result += String.format("Total: $%.2f", balance / 100.0);
     return result;
@@ -53,7 +55,7 @@ public class Ledger implements Cloneable
     Ledger that = (Ledger) o;
 
     if(balance != that.balance) return false;
-    if(!Arrays.equals(transactions, that.transactions)) return false;
+    if(!transactions.equals(that.transactions)) return false;
 
     return true;
   }
@@ -61,7 +63,7 @@ public class Ledger implements Cloneable
   @Override
   public int hashCode()
   {
-    return balance + Arrays.hashCode(transactions);
+    return balance + transactions.hashCode();
   }
 
   @Override
@@ -70,9 +72,9 @@ public class Ledger implements Cloneable
     try
     {
       Ledger clone = (Ledger)super.clone();
-      clone.transactions = transactions.clone();
-      for(int i = 0; i < transactionIndex; i++)
-        clone.transactions[i] = transactions[i].clone();
+      clone.transactions = new LinkedList<Transaction>();
+      for(Transaction transaction : transactions)
+        clone.transactions.add(transaction);
       return clone;
     }
     catch(CloneNotSupportedException e)
