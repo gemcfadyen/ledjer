@@ -5,6 +5,8 @@ import ledjer.Ledger;
 import ledjer.NegativeBalanceException;
 import ledjer.Payment;
 
+import java.util.Date;
+
 public class EmptyLedger {
 
   private Class exceptionClass;
@@ -17,7 +19,7 @@ public class EmptyLedger {
   {
     try
     {
-      Context.ledger.pay(new Payment(amount, "Someone"));
+      Context.ledger.pay(new Payment(amount, "Someone", new Date()));
     }
     catch(NegativeBalanceException e)
     {
@@ -33,7 +35,7 @@ public class EmptyLedger {
   public void depositThisManyTimes(int amount, int times)
   {
     for(int i = 0; i < times; i++)
-      Context.ledger.deposit(new Deposit(amount));
+      Context.ledger.deposit(new Deposit(amount, new Date()));
   }
 
   public int balance()

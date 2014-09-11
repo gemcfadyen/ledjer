@@ -39,7 +39,10 @@ public class Ledger implements Cloneable
   {
     String result = "";
 
-    for(Transaction transaction : transactions)
+    final LinkedList<Transaction> sortedTransactions = transactions;
+    Collections.sort(transactions);
+
+    for(Transaction transaction : sortedTransactions)
       result += transaction.asStatement();
 
     result += String.format("Total: $%.2f", balance / 100.0);

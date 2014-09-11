@@ -1,9 +1,17 @@
 package ledjer;
 
-public abstract class Transaction implements Cloneable
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public abstract class Transaction implements Cloneable, Comparable<Transaction>
 {
   public static int currentSequenceNumber = 1;
-  protected int amount;
+  public static SimpleDateFormat dateFormat = new SimpleDateFormat("MMM d, yyyy");
+  public static DecimalFormat dollarFormat = new DecimalFormat("$0.00");
+
+  private final Date date;
+  private int amount;
   private int number;
 
   private static int nextNumber()
@@ -16,10 +24,16 @@ public abstract class Transaction implements Cloneable
     currentSequenceNumber = 1;
   }
 
-  public Transaction(int amount)
+  public static  String toDollars(int pennies)
+  {
+    return dollarFormat.format(pennies / 100.0);
+  }
+
+  public Transaction(int amount, Date date)
   {
     number = nextNumber();
     this.amount = amount;
+    this.date = date;
   }
 
   public int getAmount()
@@ -27,7 +41,15 @@ public abstract class Transaction implements Cloneable
     return amount;
   }
 
-  public abstract String asStatement();
+  public Date getDate()
+  {
+    return date;
+  }
+
+  public String asStatement()
+  {
+    return dateFormat.format(date) + " " + number + ". ";
+  }
 
   public int getNumber()
   {
@@ -66,5 +88,11 @@ public abstract class Transaction implements Cloneable
     {
       throw new RuntimeException("Can't clone Transaction", e);
     }
+  }
+
+  @Override
+  public int compareTo(Transaction that)
+  {
+    return this.date.compareTo(that.date);
   }
 }

@@ -1,16 +1,25 @@
 package ledjer.fixtures;
 
 import ledjer.Deposit;
+import ledjer.Transaction;
+
+import java.util.Date;
 
 public class Deposits
 {
 
-  public int amount;
-  public Deposit deposit;
+  private int amount;
+  private Deposit deposit;
+  private Date date;
 
   public void setAmount(int amount)
   {
     this.amount = amount;
+  }
+
+  public void setDate(String date) throws Exception
+  {
+    this.date = Transaction.dateFormat.parse(date);
   }
 
   public int balance()
@@ -25,7 +34,7 @@ public class Deposits
 
   public void execute()
   {
-    deposit = new Deposit(amount);
+    deposit = new Deposit(amount, date);
     Context.ledger.deposit(deposit);
   }
 }
