@@ -7,7 +7,6 @@ import java.util.Date;
 
 public class Deposits
 {
-
   private int amount;
   private Deposit deposit;
   private Date date;

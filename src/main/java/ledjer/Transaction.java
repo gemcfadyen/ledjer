@@ -1,10 +1,11 @@
 package ledjer;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public abstract class Transaction implements Cloneable, Comparable<Transaction>
+public abstract class Transaction implements Cloneable, Comparable<Transaction>, Serializable
 {
   public static int currentSequenceNumber = 1;
   public static SimpleDateFormat dateFormat = new SimpleDateFormat("MMM d, yyyy");

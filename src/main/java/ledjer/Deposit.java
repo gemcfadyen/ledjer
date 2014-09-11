@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class Deposit extends Transaction
 {
+  private static final long serialVersionUID = 1L;
 
   public Deposit(int amount, Date date)
   {

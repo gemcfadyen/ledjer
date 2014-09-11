@@ -158,7 +158,21 @@ public class LedgerTest
       payment.asStatement() +
       deposit1.asStatement() +
       "Total: $32.22", ledger.statement());
+  }
 
+  @Test
+  public void serialization() throws Exception
+  {
+    final Deposit deposit = new Deposit(1234, new Date());
+    final Payment payment = new Payment(321, "Sam", new Date());
+    ledger.deposit(deposit);
+    ledger.pay(payment);
+
+    ledger.save();
+    Ledger loaded = Ledger.load();
+
+    assertEquals(ledger, loaded);
+    assertNotSame(ledger, loaded);
   }
 
 }

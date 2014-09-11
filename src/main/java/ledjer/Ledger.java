@@ -1,12 +1,12 @@
 package ledjer;
 
-import java.util.Arrays;
+import java.io.*;
 import java.util.Collections;
 import java.util.LinkedList;
 
-public class Ledger implements Cloneable
+public class Ledger implements Cloneable, Serializable
 {
-
+  private static final long serialVersionUID = 1L;
   private int balance;
   private LinkedList<Transaction> transactions = new LinkedList<Transaction>();
   private int transactionIndex = 0;
@@ -83,6 +83,35 @@ public class Ledger implements Cloneable
     catch(CloneNotSupportedException e)
     {
       throw new RuntimeException("Can't clone Ledger", e);
+    }
+  }
+
+  public void save()
+  {
+    try
+    {
+      ObjectOutputStream serializer = new ObjectOutputStream(new FileOutputStream("ledger.data"));
+      serializer.writeObject(this);
+      serializer.close();
+    }
+    catch(IOException e)
+    {
+      throw new RuntimeException("Failed to serialize Ledger", e);
+    }
+  }
+
+  public static Ledger load()
+  {
+    try
+    {
+      ObjectInputStream deserializer = new ObjectInputStream(new FileInputStream("ledger.data"));
+      Ledger ledger = (Ledger)deserializer.readObject();
+      deserializer.close();
+      return ledger;
+    }
+    catch(Exception e)
+    {
+      throw new RuntimeException("Failed to deserialize Ledger", e);
     }
   }
 }
