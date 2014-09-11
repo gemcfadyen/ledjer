@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotSame;
 
 
 public class DepositTest
@@ -13,7 +14,7 @@ public class DepositTest
   @Before
   public void setUp()
   {
-      Transaction.resetSequenceNumber();
+    Transaction.resetSequenceNumber();
   }
 
   @Test
@@ -36,5 +37,14 @@ public class DepositTest
     assertNotEquals(deposit, null);
     assertEquals(deposit, new Deposit(123));
     assertNotEquals(deposit, new Deposit(321));
+  }
+
+  @Test
+  public void cloning() throws Exception
+  {
+    Deposit deposit = new Deposit(123);
+    Deposit clone = deposit.clone();
+    assertEquals(deposit, clone);
+    assertNotSame(deposit, clone);
   }
 }

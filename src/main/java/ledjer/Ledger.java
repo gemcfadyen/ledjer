@@ -2,7 +2,7 @@ package ledjer;
 
 import java.util.Arrays;
 
-public class Ledger
+public class Ledger implements Cloneable
 {
 
   private int balance;
@@ -62,5 +62,22 @@ public class Ledger
   public int hashCode()
   {
     return balance + Arrays.hashCode(transactions);
+  }
+
+  @Override
+  public Ledger clone()
+  {
+    try
+    {
+      Ledger clone = (Ledger)super.clone();
+      clone.transactions = transactions.clone();
+      for(int i = 0; i < transactionIndex; i++)
+        clone.transactions[i] = transactions[i].clone();
+      return clone;
+    }
+    catch(CloneNotSupportedException e)
+    {
+      throw new RuntimeException("Can't clone Ledger", e);
+    }
   }
 }

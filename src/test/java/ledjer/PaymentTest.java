@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotSame;
 
 public class PaymentTest
 {
@@ -37,5 +38,14 @@ public class PaymentTest
     assertEquals(payment, new Payment(123, "Sam"));
     assertNotEquals(payment, new Payment(321, "Sam"));
     assertNotEquals(payment, new Payment(123, "Matt"));
+  }
+
+  @Test
+  public void cloning() throws Exception
+  {
+    Payment payment = new Payment(123, "Sam");
+    Payment clone = payment.clone();
+    assertEquals(payment, clone);
+    assertNotSame(payment, clone);
   }
 }

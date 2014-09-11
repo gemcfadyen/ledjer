@@ -40,4 +40,10 @@ public class Payment extends Transaction
   {
     return super.hashCode() + (payee != null ? payee.hashCode() : 0);
   }
+
+  @Override
+  public Payment clone()
+  {
+    return (Payment)super.clone();
+  }
 }

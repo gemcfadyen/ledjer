@@ -13,4 +13,10 @@ public class Deposit extends Transaction
   {
     return String.format("%d. Deposit: $%.2f\n", getNumber(), getAmount() / 100.0);
   }
+
+  @Override
+  public Deposit clone()
+  {
+    return (Deposit)super.clone();
+  }
 }

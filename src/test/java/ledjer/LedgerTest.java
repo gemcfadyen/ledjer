@@ -6,6 +6,7 @@ import org.junit.Test;
 import static junit.framework.TestCase.fail;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotSame;
 
 public class LedgerTest
 {
@@ -117,4 +118,20 @@ public class LedgerTest
     other.deposit(new Deposit(123));
     assertEquals(ledger, other);
   }
+
+  @Test
+  public void cloning() throws Exception
+  {
+    final Deposit deposit = new Deposit(1234);
+    final Payment payment = new Payment(321, "Sam");
+    ledger.deposit(deposit);
+    ledger.pay(payment);
+
+    Ledger clone = ledger.clone();
+
+    assertEquals(ledger, clone);
+    assertNotSame(ledger, clone);
+  }
+
+
 }

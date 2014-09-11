@@ -1,6 +1,6 @@
 package ledjer;
 
-public abstract class Transaction
+public abstract class Transaction implements Cloneable
 {
   public static int currentSequenceNumber = 1;
   protected int amount;
@@ -52,6 +52,19 @@ public abstract class Transaction
   @Override
   public int hashCode()
   {
-    return amount + number;
+    return amount;
+  }
+
+  @Override
+  public Transaction clone()
+  {
+    try
+    {
+      return (Transaction)super.clone();
+    }
+    catch(CloneNotSupportedException e)
+    {
+      throw new RuntimeException("Can't clone Transaction", e);
+    }
   }
 }
