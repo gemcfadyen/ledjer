@@ -77,6 +77,9 @@ Hit _Finish_ as the last step.
 To run all the tests, right-click on the top-level _ledjer_ folder and click _Run as_ and then _JUnit test_.
 That will recompile the classes and, assuming there are no compile errors, run the JUnit tests and Cucumber features.
 
+## Run Cucumber features from Gradle
+`gradle cucumber`
+
 ## Cucumber plugin for Eclipse
 This plugin is not required for the exercises.
 It provides syntax highlighting and code jumping from cucumber features to java step definitions (right-click and select _Find Step_).
