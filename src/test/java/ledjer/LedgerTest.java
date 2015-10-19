@@ -67,5 +67,4 @@ public class LedgerTest {
 		String expectedStatement = "Deposit: £5.00\nPayment to Amazon: (£1.00)\nTotal: £4.00"; 
 		assertThat(ledger.statement()).isEqualTo(expectedStatement);
 	}
-
 }
