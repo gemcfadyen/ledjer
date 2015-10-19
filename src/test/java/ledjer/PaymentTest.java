@@ -18,4 +18,11 @@ public class PaymentTest {
 		Payment payment = new Payment(100, "Amazon");
 		assertThat(payment.getPayee()).isEqualTo("Amazon");
 	}
+	
+	@Test
+	public void payeeStatementDetails() {
+		Payment payment = new Payment(250, "Ikea");
+
+		assertThat(payment.asStatement()).isEqualTo("Payment to Ikea: (£2.50)\n");
+	}
 }

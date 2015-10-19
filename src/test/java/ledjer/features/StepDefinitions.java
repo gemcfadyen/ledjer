@@ -27,7 +27,7 @@ public class StepDefinitions {
     assertThat(ledger.getBalance()).isEqualTo(expectedBalance);
   }
   
-  @Then("^a payment of (\\d+)p is made to (\\s)") 
+  @Then("^a payment of (\\d+)p is made to (\\w+)") 
   public void aPaymentIsMade(int amount, String payee) {
 	  ledger.payment(new Payment(amount, payee));
   }

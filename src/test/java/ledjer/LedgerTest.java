@@ -41,10 +41,10 @@ public class LedgerTest {
 	@Test
 	public void statementShowsMultipleDepositsMadeWithTotalBalance() {
 		Ledger ledger = new Ledger();
-		ledger.deposit(new Deposit(400));
+		ledger.deposit(new Deposit(410));
 		ledger.deposit(new Deposit(200));
 
-		String expectedStatement = "Deposit: £4.00\nDeposit: £2.00\nTotal: £6.00";
+		String expectedStatement = "Deposit: £4.10\nDeposit: £2.00\nTotal: £6.10";
 
 		assertThat(ledger.statement()).isEqualTo(expectedStatement);
 	}

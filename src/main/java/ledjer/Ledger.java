@@ -1,13 +1,9 @@
 package ledjer;
 
-import java.text.NumberFormat;
-
 public class Ledger {
 	private int balanceInPence;
-	private Deposit[] deposits = new Deposit[10];
-	private Payment[] payments = new Payment[10];
-	private int depositsIndex = 0;
-	private int paymentIndex = 0;
+	private int transactionIndex = 0;
+	private Transaction[] transactions = new Transaction[20];
 
 	public Ledger() {
 		balanceInPence = 0;
@@ -18,50 +14,28 @@ public class Ledger {
 	}
 
 	public void deposit(Deposit deposit) {
-		deposits[depositsIndex++] = deposit;
 		balanceInPence += deposit.getAmount();
+		transactions[transactionIndex++] = deposit;
 	}
 	
 	public void payment(Payment payment) {
 		balanceInPence -= payment.getAmount();
-		payments[paymentIndex++] = payment;
+		transactions[transactionIndex++] = payment;
 	}
 
 	public String statement() {
-		NumberFormat numberFormat = NumberFormat.getInstance();
-		numberFormat.setMinimumFractionDigits(2);
-
-		String statement = "";
-		statement += getDepositDetailsForStatement(numberFormat);
-		statement += getPaymentDetailsForStatement(numberFormat);
-		statement += getTotalForStatement(numberFormat);
-		
-		return statement;
+		return getTransactionDetailsForStatement() + getTotalForStatement();
 	}
 	
-	private String getDepositDetailsForStatement(NumberFormat numberFormat) {
+	private String getTransactionDetailsForStatement() {
 		StringBuffer statement = new StringBuffer();
-		for (int deposit = 0; deposit < depositsIndex; deposit++) {
-			statement.append("Deposit: £" + numberFormat.format(deposits[deposit].getAmount()/100) + "\n");
+		for (int transaction = 0; transaction < transactionIndex; transaction++) {
+			statement.append(transactions[transaction].asStatement());
 		}
 		return statement.toString();
 	}	
 	
-	private String getPaymentDetailsForStatement(NumberFormat numberFormat) {
-		StringBuffer statement = new StringBuffer();
-		
-		for(int payment = 0; payment < paymentIndex; payment++) {
-			statement.append("Payment to " + payments[payment].getPayee() 
-					+ ": (£" 
-					+ numberFormat.format(payments[payment].getAmount()/100) 
-					+ ")\n");
-		}
-		return statement.toString();
+	private String getTotalForStatement() {
+		return "Total: " + PoundConverter.convertForDisplay(balanceInPence);
 	}
-	
-	private String getTotalForStatement(NumberFormat numberFormat) {
-		return "Total: £" + numberFormat.format(balanceInPence/100);
-	}
-	
-
 }

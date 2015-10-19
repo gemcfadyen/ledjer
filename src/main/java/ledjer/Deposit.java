@@ -6,4 +6,9 @@ public class Deposit extends Transaction {
 		super(amount);
 	}
 
+	@Override
+	public String asStatement() {
+		return "Deposit: " + PoundConverter.convertForDisplay(amount) + "\n";
+	}
+
 }
