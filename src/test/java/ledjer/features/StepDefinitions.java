@@ -5,6 +5,8 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import ledjer.Deposit;
 import ledjer.Ledger;
+import ledjer.Payment;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class StepDefinitions {
@@ -23,6 +25,11 @@ public class StepDefinitions {
   @Then("^the balance is (\\d+)p$")
   public void theBalanceIs(int expectedBalance) {
     assertThat(ledger.getBalance()).isEqualTo(expectedBalance);
+  }
+  
+  @Then("^a payment of (\\d+)p is made to (\\s)") 
+  public void aPaymentIsMade(int amount, String payee) {
+	  ledger.payment(new Payment(amount, payee));
   }
 
   @Then("^the statement contains$")

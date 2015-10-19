@@ -43,11 +43,29 @@ public class LedgerTest {
 		Ledger ledger = new Ledger();
 		ledger.deposit(new Deposit(400));
 		ledger.deposit(new Deposit(200));
-	
+
 		String expectedStatement = "Deposit: £4.00\nDeposit: £2.00\nTotal: £6.00";
-		
+
 		assertThat(ledger.statement()).isEqualTo(expectedStatement);
 	}
 
+	@Test
+	public void deductsPaymentOf10pFromBalance() {
+		Ledger ledger = new Ledger();
+		ledger.deposit(new Deposit(100));
+		ledger.payment(new Payment(10, "Ikea"));
+
+		assertThat(ledger.getBalance()).isEqualTo(90);
+	}
+	
+	@Test
+	public void printsPaymentAndPayeeOnStatement() {
+		Ledger ledger = new Ledger();
+		ledger.deposit(new Deposit(500));
+		ledger.payment(new Payment(100, "Amazon"));
+		
+		String expectedStatement = "Deposit: £5.00\nPayment to Amazon: (£1.00)\nTotal: £4.00"; 
+		assertThat(ledger.statement()).isEqualTo(expectedStatement);
+	}
 
 }
