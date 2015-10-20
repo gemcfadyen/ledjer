@@ -26,4 +26,37 @@ public class PaymentTest {
 		
 		assertThat(payment.asStatement()).isEqualTo(idNumber + ". Payment to Ikea: (£2.50)\n");
 	}
+	
+	@Test
+	public void paymentsAtTheSameAddressAreEqual() {
+		Payment payment = new Payment(123, "Amazon");
+		Payment anotherPayment = payment;
+		
+		assertThat(payment).isEqualTo(anotherPayment);
+	}
+	
+	@Test
+	public void paymentsWithTheSameAmountAndPayeeAndTransactionNumberAreEqual() {
+		Transaction.resetNumber();
+		Payment payment = new Payment(34423, "Apple");
+		Transaction.resetNumber();
+		Payment anotherPayment = new Payment(34423, "Apple");
+		
+		assertThat(payment).isEqualTo(anotherPayment);
+	}
+	
+	@Test
+	public void paymentsWithDifferentTransactionNumbersAreNotEqual() {
+		Payment payment = new Payment(34423, "Apple");
+		Payment anotherPayment = new Payment(34423, "Apple");
+		
+		assertThat(payment).isNotEqualTo(anotherPayment);
+	}
+	
+	@Test
+	public void paymentIsNotEqualToAnotherObject() {
+		Payment payment = new Payment(23, "Ikea");
+		Deposit deposit = new Deposit(23);
+		assertThat(payment).isNotEqualTo(deposit);
+	}
 }

@@ -43,4 +43,34 @@ public class Ledger {
 	private String getTotalForStatement() {
 		return "Total: " + PoundConverter.convertForDisplay(balanceInPence);
 	}
+
+	public boolean equals(Object aLedger) {
+		if (this == aLedger) {
+			return true;
+		}
+		
+		if(!(aLedger instanceof Ledger)) {
+			return false;
+		}
+
+		Ledger otherLedger = (Ledger) aLedger;
+		if ((this.balanceInPence == otherLedger.balanceInPence) 
+				&& allTransactionsMatch(otherLedger)) {
+			return true;
+		}
+		return false;
+	}
+
+	private boolean allTransactionsMatch(Ledger otherLedger) {
+		if (this.transactions.length == otherLedger.transactions.length) {
+			for (int i = 0; i < this.transactions.length; i++) {
+				if (transactions[i] != null 
+						&& otherLedger.transactions[i] != null
+						&& !transactions[i].equals(otherLedger.transactions[i])) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
 }

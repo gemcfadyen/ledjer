@@ -93,4 +93,42 @@ public class LedgerTest {
 		ledger.payment(new Payment(1000, "Apple"));	
 		
 	}
+	
+	@Test
+	public void ledgersAtTheSameAddressAreEqual() {
+		Ledger ledger = new Ledger();
+		Ledger theSameLedger = ledger;
+		
+		assertThat(ledger).isEqualTo(theSameLedger);
+	}
+	
+	@Test
+	public void ledgersWithTheSameTransactionsAreEqual() {
+		Transaction.resetNumber();
+		Ledger ledger = new Ledger();
+		
+		Transaction.resetNumber();
+		Ledger anotherLedger = new Ledger();
+		
+		assertThat(ledger).isEqualTo(anotherLedger);
+	}
+	
+	@Test
+	public void ledgersWithDifferentTransactionsAreNotEqual() {
+		Ledger ledger = new Ledger();
+		ledger.deposit(new Deposit(100));
+		
+		Ledger anotherLedger = new Ledger();
+		anotherLedger.deposit(new Deposit(6000));  
+		
+		assertThat(ledger).isNotEqualTo(anotherLedger);
+	}
+	
+	@Test
+	public void aLedgerComparedToAnotherObjectIsNotEqual() {
+		Ledger ledger = new Ledger();
+		Deposit deposit = new Deposit(234);
+		
+		assertThat(ledger).isNotEqualTo(deposit);
+	}
 }

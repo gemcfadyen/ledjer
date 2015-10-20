@@ -10,4 +10,22 @@ public class Deposit extends Transaction {
 	public String asStatement() {
 		return getNumber() + ". Deposit: " + PoundConverter.convertForDisplay(getAmount()) + "\n";
 	}
+
+	@Override
+	public boolean equals(Object aDeposit) {
+
+		if (this == aDeposit) {
+			return true;
+		}
+
+		if (!(aDeposit instanceof Deposit)) {
+			return false;
+		}
+
+		Deposit anotherDeposit = (Deposit) aDeposit;
+		if ((this.getAmount() == anotherDeposit.getAmount()) && (this.getNumber() == anotherDeposit.getNumber())) {
+			return true;
+		}
+		return false;
+	}
 }
