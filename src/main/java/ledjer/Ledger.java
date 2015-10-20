@@ -1,5 +1,6 @@
 package ledjer;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -57,22 +58,9 @@ public class Ledger {
 
 		Ledger otherLedger = (Ledger) aLedger;
 		if ((this.balanceInPence == otherLedger.balanceInPence) 
-				&& allTransactionsMatch(otherLedger)) {
+				&& Arrays.equals(this.transactions.toArray(), otherLedger.transactions.toArray())) {
 			return true;
 		}
 		return false;
-	}
-
-	private boolean allTransactionsMatch(Ledger otherLedger) {
-		if (this.transactions.size() == otherLedger.transactions.size()) {
-			for (int i = 0; i < this.transactions.size(); i++) {
-				if (transactions.get(i) != null 
-						&& otherLedger.transactions.get(i) != null
-						&& !transactions.get(i).equals(otherLedger.transactions.get(i))) {
-					return false;
-				}
-			}
-		}
-		return true;
 	}
 }
