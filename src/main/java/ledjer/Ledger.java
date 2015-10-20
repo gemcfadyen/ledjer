@@ -1,9 +1,11 @@
 package ledjer;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class Ledger {
 	private int balanceInPence;
-	private int transactionIndex = 0;
-	private Transaction[] transactions = new Transaction[20];
+	private List<Transaction> transactions = new LinkedList<Transaction>();
 
 	public Ledger() {
 		balanceInPence = 0;
@@ -15,14 +17,14 @@ public class Ledger {
 
 	public void deposit(Deposit deposit) {
 		balanceInPence += deposit.getAmount();
-		transactions[transactionIndex++] = deposit;
+		transactions.add(deposit);
 	}
 
 	public void payment(Payment payment) {
 		int paymentAmount = payment.getAmount();
 		if (paymentAmount <= balanceInPence) {
 			balanceInPence -= paymentAmount;
-			transactions[transactionIndex++] = payment;
+			transactions.add(payment);
 		} else {
 			throw new NegativeBalanceException();
 		}
@@ -34,8 +36,8 @@ public class Ledger {
 
 	private String getTransactionDetailsForStatement() {
 		StringBuffer statement = new StringBuffer();
-		for (int transaction = 0; transaction < transactionIndex; transaction++) {
-			statement.append(transactions[transaction].asStatement());
+		for (int transaction = 0; transaction < transactions.size(); transaction++) {
+			statement.append(transactions.get(transaction).asStatement());
 		}
 		return statement.toString();
 	}
@@ -62,11 +64,11 @@ public class Ledger {
 	}
 
 	private boolean allTransactionsMatch(Ledger otherLedger) {
-		if (this.transactions.length == otherLedger.transactions.length) {
-			for (int i = 0; i < this.transactions.length; i++) {
-				if (transactions[i] != null 
-						&& otherLedger.transactions[i] != null
-						&& !transactions[i].equals(otherLedger.transactions[i])) {
+		if (this.transactions.size() == otherLedger.transactions.size()) {
+			for (int i = 0; i < this.transactions.size(); i++) {
+				if (transactions.get(i) != null 
+						&& otherLedger.transactions.get(i) != null
+						&& !transactions.get(i).equals(otherLedger.transactions.get(i))) {
 					return false;
 				}
 			}

@@ -46,6 +46,13 @@ public class StepDefinitions {
 		}
 	}
 
+	@When("^(\\d+) deposits of (\\d+)p are made$")
+	public void multipleDepositsAreMade(int numberOfDeposits, int amount) {
+		for (int i = 0; i < numberOfDeposits; i++) {
+			aDepositIsMade(amount);
+		}
+	}
+
 	@Then("^the balance is (\\d+)p$")
 	public void theBalanceIs(int expectedBalance) {
 		assertThat(ledger.getBalance()).isEqualTo(expectedBalance);
