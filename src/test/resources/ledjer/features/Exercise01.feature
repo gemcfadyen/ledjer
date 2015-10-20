@@ -9,7 +9,7 @@ Feature: Exercise 1
     Then the balance is 300p
     And the statement contains
     """
-    Deposit: £1.00
-    Deposit: £2.00
+    1. Deposit: £1.00
+    2. Deposit: £2.00
     Total: £3.00
     """

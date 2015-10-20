@@ -2,14 +2,32 @@ package ledjer;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.Before;
 import org.junit.Test;
 
 public class LedgerTest {
+	
+	@Before
+	public void resetTransactionNumber() {
+		Transaction.resetNumber();
+	}
 
 	@Test
 	public void balanceIs0WhenNewLedgerCreated() {
 		Ledger ledger = new Ledger();
 		assertThat(ledger.getBalance()).isEqualTo(0);
+	}
+	
+	@Test
+	public void aNewLedgerStartsCountingTransactionsFrom1() {
+		Ledger ledger = new Ledger();
+		Deposit deposit = new Deposit(234);
+		ledger.deposit(deposit);
+		assertThat(ledger.statement()).isEqualTo("1. Deposit: £2.34\nTotal: £2.34");
+		
+		Ledger anotherLedger = new Ledger();
+		anotherLedger.deposit(deposit);
+		assertThat(anotherLedger.statement()).isEqualTo("1. Deposit: £2.34\nTotal: £2.34");
 	}
 
 	@Test
@@ -31,9 +49,10 @@ public class LedgerTest {
 	@Test
 	public void statementShowsDepositOf£1AndBalanceOf£1() {
 		Ledger ledger = new Ledger();
-		ledger.deposit(new Deposit(100));
+		Deposit deposit = new Deposit(100);
+		ledger.deposit(deposit);
 
-		String expectedStatement = "Deposit: £1.00\nTotal: £1.00";
+		String expectedStatement = "1. Deposit: £1.00\nTotal: £1.00";
 
 		assertThat(ledger.statement()).isEqualTo(expectedStatement);
 	}
@@ -44,7 +63,7 @@ public class LedgerTest {
 		ledger.deposit(new Deposit(410));
 		ledger.deposit(new Deposit(200));
 
-		String expectedStatement = "Deposit: £4.10\nDeposit: £2.00\nTotal: £6.10";
+		String expectedStatement = "1. Deposit: £4.10\n2. Deposit: £2.00\nTotal: £6.10";
 
 		assertThat(ledger.statement()).isEqualTo(expectedStatement);
 	}
@@ -64,7 +83,7 @@ public class LedgerTest {
 		ledger.deposit(new Deposit(500));
 		ledger.payment(new Payment(100, "Amazon"));
 		
-		String expectedStatement = "Deposit: £5.00\nPayment to Amazon: (£1.00)\nTotal: £4.00"; 
+		String expectedStatement = "1. Deposit: £5.00\n2. Payment to Amazon: (£1.00)\nTotal: £4.00"; 
 		assertThat(ledger.statement()).isEqualTo(expectedStatement);
 	}
 	

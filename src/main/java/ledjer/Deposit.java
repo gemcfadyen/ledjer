@@ -8,6 +8,6 @@ public class Deposit extends Transaction {
 
 	@Override
 	public String asStatement() {
-		return "Deposit: " + PoundConverter.convertForDisplay(getAmount()) + "\n";
+		return getNumber() + ". Deposit: " + PoundConverter.convertForDisplay(getAmount()) + "\n";
 	}
 }

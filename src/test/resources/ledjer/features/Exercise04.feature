@@ -13,9 +13,9 @@ Feature: Exercise 4
     And a payment of 300p is made to Amazon
     Then the statement contains
     """
-    Deposit: £10.00
-    Payment to Apple: (£1.00)
-    Deposit: £2.00
-    Payment to Amazon: (£3.00)
+    1. Deposit: £10.00
+    2. Payment to Apple: (£1.00)
+    3. Deposit: £2.00
+    4. Payment to Amazon: (£3.00)
     Total: £8.00
     """

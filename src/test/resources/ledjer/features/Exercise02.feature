@@ -11,9 +11,9 @@ Feature: Exercise 2
     Then the balance is 9400p
     And the statement contains
     """
-    Deposit: £100.00
-    Payment to Apple: (£1.00)
-    Payment to Amazon: (£2.00)
-    Payment to BBC: (£3.00)
+    1. Deposit: £100.00
+    2. Payment to Apple: (£1.00)
+    3. Payment to Amazon: (£2.00)
+    4. Payment to BBC: (£3.00)
     Total: £94.00
     """

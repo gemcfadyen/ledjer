@@ -1,5 +1,8 @@
 package ledjer.features;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -7,12 +10,16 @@ import ledjer.Deposit;
 import ledjer.Ledger;
 import ledjer.NegativeBalanceException;
 import ledjer.Payment;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import ledjer.Transaction;
 
 public class StepDefinitions {
 	private Ledger ledger;
 	private boolean exceptionThrown = false;
+
+	@Before
+	public void resetTransactionNumber() {
+		Transaction.resetNumber();
+	}
 
 	@Given("^an empty ledger$")
 	public void anEmptyLedger() {
@@ -44,7 +51,7 @@ public class StepDefinitions {
 		assertThat(ledger.getBalance()).isEqualTo(expectedBalance);
 	}
 
-	@Then("^a payment of (\\d+)p is made to (\\w+)$")
+	@Then("^a payment of (\\d+)p is made to (\\w+.+)$")
 	public void aPaymentIsMade(int amount, String payee) {
 		ledger.payment(new Payment(amount, payee));
 	}

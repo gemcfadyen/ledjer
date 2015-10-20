@@ -15,6 +15,7 @@ public class DepositTest {
 	@Test
 	public void depositStatementDetails() {
 		Deposit deposit = new Deposit(120);
-		assertThat(deposit.asStatement()).isEqualTo("Deposit: £1.20\n");
+		int idNumber = deposit.getNumber();
+		assertThat(deposit.asStatement()).isEqualTo(idNumber + ". Deposit: £1.20\n");
 	}
 }
