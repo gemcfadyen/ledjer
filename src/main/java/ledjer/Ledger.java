@@ -17,24 +17,29 @@ public class Ledger {
 		balanceInPence += deposit.getAmount();
 		transactions[transactionIndex++] = deposit;
 	}
-	
+
 	public void payment(Payment payment) {
-		balanceInPence -= payment.getAmount();
-		transactions[transactionIndex++] = payment;
+		int paymentAmount = payment.getAmount();
+		if (paymentAmount <= balanceInPence) {
+			balanceInPence -= paymentAmount;
+			transactions[transactionIndex++] = payment;
+		} else {
+			throw new NegativeBalanceException();
+		}
 	}
 
 	public String statement() {
 		return getTransactionDetailsForStatement() + getTotalForStatement();
 	}
-	
+
 	private String getTransactionDetailsForStatement() {
 		StringBuffer statement = new StringBuffer();
 		for (int transaction = 0; transaction < transactionIndex; transaction++) {
 			statement.append(transactions[transaction].asStatement());
 		}
 		return statement.toString();
-	}	
-	
+	}
+
 	private String getTotalForStatement() {
 		return "Total: " + PoundConverter.convertForDisplay(balanceInPence);
 	}

@@ -10,5 +10,4 @@ public class Deposit extends Transaction {
 	public String asStatement() {
 		return "Deposit: " + PoundConverter.convertForDisplay(amount) + "\n";
 	}
-
 }
