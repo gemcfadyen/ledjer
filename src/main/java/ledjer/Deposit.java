@@ -13,7 +13,6 @@ public class Deposit extends Transaction {
 
 	@Override
 	public boolean equals(Object aDeposit) {
-
 		if (this == aDeposit) {
 			return true;
 		}
@@ -23,9 +22,6 @@ public class Deposit extends Transaction {
 		}
 
 		Deposit anotherDeposit = (Deposit) aDeposit;
-		if ((this.getAmount() == anotherDeposit.getAmount()) && (this.getNumber() == anotherDeposit.getNumber())) {
-			return true;
-		}
-		return false;
+		return super.equals(anotherDeposit);
 	}
 }

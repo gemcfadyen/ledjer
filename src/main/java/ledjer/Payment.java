@@ -28,10 +28,9 @@ public class Payment extends Transaction {
 		}
 
 		Payment anotherPayment = (Payment) aPayment;
-		if ((this.payee.equals(anotherPayment.payee) 
-				&& this.getAmount() == anotherPayment.getAmount())
-				&& this.getNumber() == anotherPayment.getNumber()) {
-			return true;
+		
+		if (this.payee.equals(anotherPayment.payee)) {
+			return true && super.equals(aPayment);
 		}
 		return false;
 	}

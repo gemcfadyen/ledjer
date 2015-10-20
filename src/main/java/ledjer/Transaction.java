@@ -24,4 +24,13 @@ public abstract class Transaction {
 	public static void resetNumber() {
 		nextNumber = 1;
 	}
+
+	public boolean equals(Object aTransaction) {
+		Transaction transaction = (Transaction)aTransaction;
+		if ((this.getAmount() == transaction.getAmount()) 
+				&& (this.getNumber() == transaction.getNumber())) {
+			return true;
+		}
+		return false;
+	}
 }
