@@ -125,6 +125,34 @@ public class LedgerTest {
 	}
 	
 	@Test
+	public void ledgersThatHaveADifferentNumberOfTransactionsAreNotEqual() {
+		Transaction.resetNumber();
+		Ledger ledger = new Ledger();
+		ledger.deposit(new Deposit(234));
+		
+		Transaction.resetNumber();
+		Ledger anotherLedger = new Ledger();
+		anotherLedger.deposit(new Deposit(234));
+		anotherLedger.deposit(new Deposit(231));
+		
+		assertThat(ledger).isNotEqualTo(anotherLedger);
+	}
+	
+	@Test
+	public void ledgersThatHaveADifferentNumberOfTransactionsAreNotEqualEvenIfTheirAmountsMatch() {
+		Transaction.resetNumber();
+		Ledger ledger = new Ledger();
+		ledger.deposit(new Deposit(234));
+		
+		Transaction.resetNumber();
+		Ledger anotherLedger = new Ledger();
+		anotherLedger.deposit(new Deposit(234));
+		anotherLedger.deposit(new Deposit(234));
+		
+		assertThat(ledger).isNotEqualTo(anotherLedger);
+	}
+	
+	@Test
 	public void aLedgerComparedToAnotherObjectIsNotEqual() {
 		Ledger ledger = new Ledger();
 		Deposit deposit = new Deposit(234);
