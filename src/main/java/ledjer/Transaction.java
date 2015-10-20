@@ -1,10 +1,14 @@
 package ledjer;
 
 public abstract class Transaction {
-	protected int amount;
+	private int amount;
+	private int number;
+	private static int nextNumber = 1;
 	
 	public Transaction(int amount) {
 		this.amount = amount;
+		number = nextNumber;
+		nextNumber++;
 	}
 	
 	public int getAmount() {
@@ -13,4 +17,7 @@ public abstract class Transaction {
 	
 	public abstract String asStatement();
 
+	public int getNumber() {
+		return number;
+	}
 }

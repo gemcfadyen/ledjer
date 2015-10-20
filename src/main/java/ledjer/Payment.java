@@ -14,6 +14,6 @@ public class Payment extends Transaction {
 
 	@Override
 	public String asStatement() {
-		return "Payment to " + payee + ": (" + PoundConverter.convertForDisplay(amount) + ")\n";
+		return "Payment to " + payee + ": (" + PoundConverter.convertForDisplay(getAmount()) + ")\n";
 	}
 }
