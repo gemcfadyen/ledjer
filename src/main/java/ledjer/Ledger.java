@@ -1,6 +1,7 @@
 package ledjer;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -32,6 +33,7 @@ public class Ledger {
 	}
 
 	public String statement() {
+		Collections.sort(transactions, new TransactionDateOrdering());
 		return getTransactionDetailsForStatement() + getTotalForStatement();
 	}
 

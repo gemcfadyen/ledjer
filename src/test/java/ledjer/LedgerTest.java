@@ -183,4 +183,25 @@ public class LedgerTest {
 		
 		assertThat(ledger).isNotEqualTo(deposit);
 	}
+	
+	@Test
+	public void transactionsInTheLedgerAreOrderedByDate() {
+		Calendar firstDate = Calendar.getInstance();
+		firstDate.set(2000, 2, 3);
+		Deposit earliestDeposit = new Deposit(1000, firstDate.getTime());
+		
+		Calendar secondDate = Calendar.getInstance();
+		secondDate.set(2000, 2, 4);
+		
+		Deposit latestDeposit = new Deposit(2000, secondDate.getTime());
+		
+		Ledger ledger = new Ledger();
+		ledger.deposit(latestDeposit);
+		ledger.deposit(earliestDeposit);
+		
+		String expectedStatement = "Mar 3, 2000 1. Deposit: £10.00\nMar 4, 2000 2. Deposit: £20.00\nTotal: £30.00"; 
+		assertThat(ledger.statement()).isEqualTo(expectedStatement);
+		
+	}
+
 }

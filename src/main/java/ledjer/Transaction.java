@@ -1,7 +1,7 @@
 package ledjer;
 
 import java.util.Date;
-
+ 
 public abstract class Transaction {
 	private int amount;
 	private Date date;
@@ -24,7 +24,7 @@ public abstract class Transaction {
 	public Date getDate() {
 		return date;
 	}
-	
+
 	public int getNumber() {
 		return number;
 	}
@@ -34,12 +34,12 @@ public abstract class Transaction {
 	}
 
 	public boolean equals(Object aTransaction) {
-		Transaction transaction = (Transaction)aTransaction;
-		if ((this.getAmount() == transaction.getAmount()) 
-				&& (this.getNumber() == transaction.getNumber())
+		Transaction transaction = (Transaction) aTransaction;
+		if ((this.getAmount() == transaction.getAmount()) && (this.getNumber() == transaction.getNumber())
 				&& (this.date.equals(transaction.date))) {
 			return true;
 		}
 		return false;
 	}
+
 }
