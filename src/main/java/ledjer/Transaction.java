@@ -1,13 +1,17 @@
 package ledjer;
 
+import java.util.Date;
+
 public abstract class Transaction {
 	private int amount;
+	private Date date;
 	private int number;
 	private static int nextNumber = 1;
 
-	public Transaction(int amount) {
+	public Transaction(int amount, Date date) {
 		this.amount = amount;
-		number = nextNumber;
+		this.date = date;
+		this.number = nextNumber;
 		nextNumber++;
 	}
 
@@ -17,6 +21,10 @@ public abstract class Transaction {
 
 	public abstract String asStatement();
 
+	public Date getDate() {
+		return date;
+	}
+	
 	public int getNumber() {
 		return number;
 	}
@@ -28,7 +36,8 @@ public abstract class Transaction {
 	public boolean equals(Object aTransaction) {
 		Transaction transaction = (Transaction)aTransaction;
 		if ((this.getAmount() == transaction.getAmount()) 
-				&& (this.getNumber() == transaction.getNumber())) {
+				&& (this.getNumber() == transaction.getNumber())
+				&& (this.date.equals(transaction.date))) {
 			return true;
 		}
 		return false;

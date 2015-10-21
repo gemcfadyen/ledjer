@@ -2,14 +2,20 @@ package ledjer;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import org.junit.Before;
 import org.junit.Test;
 
 public class LedgerTest {
+	private Calendar transactionTime;
 	
 	@Before
 	public void resetTransactionNumber() {
 		Transaction.resetNumber();
+		transactionTime = Calendar.getInstance();
+		transactionTime.set(2001, 8, 5);
 	}
 
 	@Test
@@ -21,13 +27,13 @@ public class LedgerTest {
 	@Test
 	public void aNewLedgerStartsCountingTransactionsFrom1() {
 		Ledger ledger = new Ledger();
-		Deposit deposit = new Deposit(234);
+		Deposit deposit = new Deposit(234, transactionTime.getTime());
 		ledger.deposit(deposit);
-		assertThat(ledger.statement()).isEqualTo("1. Deposit: £2.34\nTotal: £2.34");
+		assertThat(ledger.statement()).isEqualTo("Sep 5, 2001 1. Deposit: £2.34\nTotal: £2.34");
 		
 		Ledger anotherLedger = new Ledger();
 		anotherLedger.deposit(deposit);
-		assertThat(anotherLedger.statement()).isEqualTo("1. Deposit: £2.34\nTotal: £2.34");
+		assertThat(anotherLedger.statement()).isEqualTo("Sep 5, 2001 1. Deposit: £2.34\nTotal: £2.34");
 	}
 
 	@Test
@@ -41,7 +47,7 @@ public class LedgerTest {
 	@Test
 	public void depositing100pUpdatesBalanceTo100p() {
 		Ledger ledger = new Ledger();
-		ledger.deposit(new Deposit(100));
+		ledger.deposit(new Deposit(100, new Date()));
 
 		assertThat(ledger.getBalance()).isEqualTo(100);
 	}
@@ -49,21 +55,24 @@ public class LedgerTest {
 	@Test
 	public void statementShowsDepositOf£1AndBalanceOf£1() {
 		Ledger ledger = new Ledger();
-		Deposit deposit = new Deposit(100);
+		Deposit deposit = new Deposit(100, transactionTime.getTime());
 		ledger.deposit(deposit);
 
-		String expectedStatement = "1. Deposit: £1.00\nTotal: £1.00";
+		String expectedStatement = "Sep 5, 2001 1. Deposit: £1.00\nTotal: £1.00";
 
 		assertThat(ledger.statement()).isEqualTo(expectedStatement);
 	}
 
 	@Test
 	public void statementShowsMultipleDepositsMadeWithTotalBalance() {
+		Calendar anotherTransactionTime = Calendar.getInstance();
+		anotherTransactionTime.set(2008, 10, 9);
+		
 		Ledger ledger = new Ledger();
-		ledger.deposit(new Deposit(410));
-		ledger.deposit(new Deposit(200));
+		ledger.deposit(new Deposit(410, transactionTime.getTime()));
+		ledger.deposit(new Deposit(200, anotherTransactionTime.getTime()));
 
-		String expectedStatement = "1. Deposit: £4.10\n2. Deposit: £2.00\nTotal: £6.10";
+		String expectedStatement = "Sep 5, 2001 1. Deposit: £4.10\nNov 9, 2008 2. Deposit: £2.00\nTotal: £6.10";
 
 		assertThat(ledger.statement()).isEqualTo(expectedStatement);
 	}
@@ -71,8 +80,8 @@ public class LedgerTest {
 	@Test
 	public void deductsPaymentOf10pFromBalance() {
 		Ledger ledger = new Ledger();
-		ledger.deposit(new Deposit(100));
-		ledger.payment(new Payment(10, "Ikea"));
+		ledger.deposit(new Deposit(100, new Date()));
+		ledger.payment(new Payment(10, "Ikea", new Date()));
 
 		assertThat(ledger.getBalance()).isEqualTo(90);
 	}
@@ -80,17 +89,17 @@ public class LedgerTest {
 	@Test
 	public void printsPaymentAndPayeeOnStatement() {
 		Ledger ledger = new Ledger();
-		ledger.deposit(new Deposit(500));
-		ledger.payment(new Payment(100, "Amazon"));
+		ledger.deposit(new Deposit(500, transactionTime.getTime()));
+		ledger.payment(new Payment(100, "Amazon", transactionTime.getTime()));
 		
-		String expectedStatement = "1. Deposit: £5.00\n2. Payment to Amazon: (£1.00)\nTotal: £4.00"; 
+		String expectedStatement = "Sep 5, 2001 1. Deposit: £5.00\nSep 5, 2001 2. Payment to Amazon: (£1.00)\nTotal: £4.00"; 
 		assertThat(ledger.statement()).isEqualTo(expectedStatement);
 	}
 	
 	@Test (expected=NegativeBalanceException.class)
 	public void negativeBalancesThrowException() {
 		Ledger ledger = new Ledger();
-		ledger.payment(new Payment(1000, "Apple"));	
+		ledger.payment(new Payment(1000, "Apple", new Date()));	
 		
 	}
 	
@@ -103,7 +112,7 @@ public class LedgerTest {
 	}
 	
 	@Test
-	public void ledgersWithTheSameTransactionsAreEqual() {
+	public void ledgersWithNoTransactionsAreEqual() {
 		Transaction.resetNumber();
 		Ledger ledger = new Ledger();
 		
@@ -114,12 +123,27 @@ public class LedgerTest {
 	}
 	
 	@Test
+	public void ledgersWithTheSameTransactionsAreEqual() {
+		Deposit deposit = new Deposit(213, new Date());
+		Transaction.resetNumber();
+		
+		Ledger ledger = new Ledger();
+		ledger.deposit(deposit);
+		
+		Transaction.resetNumber();
+		Ledger anotherLedger = new Ledger();
+		anotherLedger.deposit(deposit);
+		
+		assertThat(ledger).isEqualTo(anotherLedger);
+	}
+	
+	@Test
 	public void ledgersWithDifferentTransactionsAreNotEqual() {
 		Ledger ledger = new Ledger();
-		ledger.deposit(new Deposit(100));
+		ledger.deposit(new Deposit(100, new Date()));
 		
 		Ledger anotherLedger = new Ledger();
-		anotherLedger.deposit(new Deposit(6000));  
+		anotherLedger.deposit(new Deposit(6000, new Date()));  
 		
 		assertThat(ledger).isNotEqualTo(anotherLedger);
 	}
@@ -128,12 +152,12 @@ public class LedgerTest {
 	public void ledgersThatHaveADifferentNumberOfTransactionsAreNotEqual() {
 		Transaction.resetNumber();
 		Ledger ledger = new Ledger();
-		ledger.deposit(new Deposit(234));
+		ledger.deposit(new Deposit(234, new Date()));
 		
 		Transaction.resetNumber();
 		Ledger anotherLedger = new Ledger();
-		anotherLedger.deposit(new Deposit(234));
-		anotherLedger.deposit(new Deposit(231));
+		anotherLedger.deposit(new Deposit(234, new Date()));
+		anotherLedger.deposit(new Deposit(231, new Date()));
 		
 		assertThat(ledger).isNotEqualTo(anotherLedger);
 	}
@@ -142,12 +166,12 @@ public class LedgerTest {
 	public void ledgersThatHaveADifferentNumberOfTransactionsAreNotEqualEvenIfTheirAmountsMatch() {
 		Transaction.resetNumber();
 		Ledger ledger = new Ledger();
-		ledger.deposit(new Deposit(234));
+		ledger.deposit(new Deposit(234, new Date()));
 		
 		Transaction.resetNumber();
 		Ledger anotherLedger = new Ledger();
-		anotherLedger.deposit(new Deposit(234));
-		anotherLedger.deposit(new Deposit(234));
+		anotherLedger.deposit(new Deposit(234, new Date()));
+		anotherLedger.deposit(new Deposit(234, new Date()));
 		
 		assertThat(ledger).isNotEqualTo(anotherLedger);
 	}
@@ -155,7 +179,7 @@ public class LedgerTest {
 	@Test
 	public void aLedgerComparedToAnotherObjectIsNotEqual() {
 		Ledger ledger = new Ledger();
-		Deposit deposit = new Deposit(234);
+		Deposit deposit = new Deposit(234, new Date());
 		
 		assertThat(ledger).isNotEqualTo(deposit);
 	}

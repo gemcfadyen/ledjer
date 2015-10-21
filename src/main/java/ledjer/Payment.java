@@ -1,10 +1,12 @@
 package ledjer;
 
+import java.util.Date;
+
 public class Payment extends Transaction {
 	private String payee;
 
-	public Payment(int amount, String payee) {
-		super(amount);
+	public Payment(int amount, String payee, Date date) {
+		super(amount, date);
 		this.payee = payee;
 	}
 
@@ -14,7 +16,14 @@ public class Payment extends Transaction {
 
 	@Override
 	public String asStatement() {
-		return getNumber() + ". Payment to " + payee + ": (" + PoundConverter.convertForDisplay(getAmount()) + ")\n";
+		return DateFormatter.formatForStatement(getDate()) 
+				+ " " 
+				+ getNumber() 
+				+ ". Payment to " 
+				+ payee 
+				+ ": (" 
+				+ PoundConverter.convertForDisplay(getAmount()) 
+				+ ")\n";
 	}
 
 	@Override

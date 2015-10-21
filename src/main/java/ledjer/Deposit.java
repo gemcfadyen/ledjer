@@ -1,14 +1,21 @@
 package ledjer;
 
+import java.util.Date;
+
 public class Deposit extends Transaction {
 
-	public Deposit(int amount) {
-		super(amount);
+	public Deposit(int amount, Date date) {
+		super(amount, date);
 	}
 
 	@Override
 	public String asStatement() {
-		return getNumber() + ". Deposit: " + PoundConverter.convertForDisplay(getAmount()) + "\n";
+		return DateFormatter.formatForStatement(getDate()) 
+				+ " " 
+				+ getNumber() 
+				+ ". Deposit: " 
+				+ PoundConverter.convertForDisplay(getAmount()) 
+				+ "\n";
 	}
 
 	@Override
