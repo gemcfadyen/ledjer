@@ -1,8 +1,10 @@
 package ledjer;
 
+import java.io.Serializable;
 import java.util.Date;
  
-public abstract class Transaction {
+public abstract class Transaction implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private int amount;
 	private Date date;
 	private int number;

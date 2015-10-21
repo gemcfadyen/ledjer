@@ -55,6 +55,16 @@ public class StepDefinitions {
 			aDepositIsMade(amount, month, day, year);
 		}
 	}
+	
+	@When("^saving the ledger$")
+	public void savingTheLedger() {
+		ledger.save();
+	}
+	
+	@When("^loading the saved ledger$") 
+	public void loadingTheLedger() {
+		ledger = ledger.load();
+	}
 
 	@Then("^the balance is (\\d+)p$")
 	public void theBalanceIs(int expectedBalance) {
